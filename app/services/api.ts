@@ -16,6 +16,12 @@ const claimCouponApi = (token : string,  baseUrl : string | undefined) => {
     return {
         profile(){
             return client.get('/profile')
+        },
+        products() {
+            return client.get('/products')
+        },
+        buy(productId: string | undefined) {
+            return client.post(`/buy/${productId}`);
         }
     }
 }

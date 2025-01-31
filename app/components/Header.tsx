@@ -67,7 +67,7 @@ export default function Header() {
 						</li>
 						<li>
 							<Link
-								to="/account"
+								to="/dashboard/account"
 								className="block py-2 px-3 primary-text border-b border-gray-100 hover: md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 "
 								aria-current="page"
 							>
