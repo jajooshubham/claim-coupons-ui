@@ -3,6 +3,7 @@ import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { badRequest } from "~/utils/request.server";
 import type { Register } from "~/model/auth-model";
 import { register } from "~/utils/session.server";
+import logo from "../assets/logo.jpg"
 
 // Validation functions
 function validateEmail(email: string) {
@@ -99,8 +100,8 @@ export default function Login() {
 					className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
 				>
 					<img
-						className="w-8 h-8 mr-2"
-						src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+						className="h-16 mr-2"
+						src={logo}
 						alt="logo"
 					/>
 				</Link>

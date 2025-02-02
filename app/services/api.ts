@@ -22,6 +22,9 @@ const claimCouponApi = (token : string,  baseUrl : string | undefined) => {
         },
         buy(productId: string | undefined) {
             return client.post(`/buy/${productId}`);
+        },
+        claimCoupons(couponCode: File | string | null) {
+            return client.post(`/clain-coupons?coupon=${couponCode}`);
         }
     }
 }

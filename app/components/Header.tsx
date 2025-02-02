@@ -1,13 +1,14 @@
 import { Link } from "@remix-run/react";
+import logo from "../assets/logo.jpg"
 
-export default function Header() {
+export default function Header({points}: { points: number | string }) {
 	return (
 		<nav className="bg-white text-lime-500 border-gray-200 z-20 top-0 start-0 w-full">
 			<div className="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-4">
 				<Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
 					<img
-						src=""
-						className="h-5"
+						src={logo}
+						className="h-16"
 						alt="Plants care Logo"
 					/>
 				</Link>
@@ -15,7 +16,7 @@ export default function Header() {
 					<button
 						className="bg-lime-700 text-white font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5"
 					>
-						Your Ponts 200
+						Your Points {points}
 					</button>
 					<button
 						data-collapse-toggle="navbar-sticky"
@@ -49,7 +50,7 @@ export default function Header() {
 					<ul className="flex flex-col mt-4 font-medium md:flex-row md:mt-0 md:space-x-8 rtl:space-x-reverse">
 						<li>
 							<Link
-								to="/"
+								to="/dashboard"
 								className="block py-2 px-3 primary-text border-b border-gray-100 hover: md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 "
 								aria-current="page"
 							>
@@ -73,7 +74,16 @@ export default function Header() {
 							>
 								Account
 							</Link>
-						</li>						
+						</li>
+						<li>
+							<Link
+								to="/dashboard/claim-coupons"
+								className="block py-2 px-3 primary-text border-b border-gray-100 hover: md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 "
+								aria-current="page"
+							>
+								Claim Coupons
+							</Link>
+						</li>
 					</ul>
 				</div>
 			</div>

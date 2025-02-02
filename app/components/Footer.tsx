@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+import logo from "../assets/logo.jpg"
 
 export default function Footer() {
 	return (
@@ -9,8 +10,8 @@ export default function Footer() {
 					className="flex justify-center items-center text-2xl font-semibold secondary-text py-5"
 				>
 					<img
-						src=""
-						className="h-10"
+						src={logo}
+						className="h-16"
 						alt="Plants Care Logo"
 					/>
 				</a>
@@ -20,10 +21,7 @@ export default function Footer() {
 					since the 1500s, when an unknown printer took a galley of type and
 					scrambled it to make a type specimen book. It has survived not only
 					five centuries, but also the leap into electronic typesetting,
-					remaining essentially unchanged. It was popularised in the 1960s with
-					the release of Letraset sheets containing Lorem Ipsum passages, and
-					more recently with desktop publishing software like Aldus PageMaker
-					including versions of Lorem Ipsum.
+					remaining essentially unchanged.
 				</p>
 				<ul className="flex flex-wrap justify-center items-center mb-6 secondary-text py-5">
 					<li>
