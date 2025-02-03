@@ -25,6 +25,9 @@ const claimCouponApi = (token : string,  baseUrl : string | undefined) => {
         },
         claimCoupons(couponCode: File | string | null) {
             return client.post(`/clain-coupons?coupon=${couponCode}`);
+        },
+        orderHistory() {
+            return client.get('/orderhistory');
         }
     }
 }

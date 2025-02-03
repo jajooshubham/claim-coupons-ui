@@ -17,7 +17,7 @@ export default function Dashboard() {
 			<div className="">
 				<Header points={user?.data.points} />
 				<main className="">
-					<Outlet />
+					<Outlet context={user?.data} />
 				</main>
 				<Footer />
 			</div>
