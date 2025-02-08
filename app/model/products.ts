@@ -6,7 +6,8 @@ export interface Product {
     type: string;
     category: string;
     stock: number;
-    inStock: boolean
+    inStock: boolean;
+    imgUrl: string;
 }
 
 export class Products extends Array<Product> {}

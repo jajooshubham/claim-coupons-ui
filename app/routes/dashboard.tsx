@@ -12,6 +12,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function Dashboard() {
 	const user = useLoaderData<typeof loader>();
+	console.log(user);
 	return (
 		<ToastProvider>
 			<div className="w-full px-4 lg:px-0">

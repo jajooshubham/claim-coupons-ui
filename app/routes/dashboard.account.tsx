@@ -1,8 +1,21 @@
-import {Link, useOutletContext} from "@remix-run/react";
+import {Link, useLoaderData, useOutletContext} from "@remix-run/react";
 import {User} from "~/model/user";
+import {LoaderFunctionArgs} from "@remix-run/node";
+import {baseUrl, requireUserToken} from "~/utils/session.server";
+import claimCouponApi from "~/services/api";
+import {Product} from "~/model/products";
+import {Order, Orders} from "~/model/order";
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+    const userToken = await requireUserToken(request);
+    const api = claimCouponApi(userToken, baseUrl);
+
+    return await api.orderHistory();
+};
 
 export default function Account() {
     const user:User = useOutletContext();
+    const loaderData = useLoaderData<typeof loader>();
 
     return (
         <div className="mx-auto">
@@ -51,10 +64,7 @@ export default function Account() {
                     <thead className="text-gray-700 bg-gray-50">
                     <tr>
                         <th scope="col" className="px-6 py-3">
-                            Sr. No.
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                        Order Id
+                            Order Id
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Product purchase
@@ -62,31 +72,25 @@ export default function Account() {
                         <th scope="col" className="px-6 py-3">
                             Points Spent
                         </th>
-                        <th scope="col" className="px-6 py-3">
-                            Created At
-                        </th>
                     </tr>
                     </thead>
                     <tbody className="contracts-table">
+                    {loaderData.status === 200 && loaderData.data.map((order: Order) => (
                         <tr className="odd:bg-white even:bg-gray-50"
-                            key="${ctrId}">
+                            key={order.orderId}>
                             <th scope="row"
                                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                0
+                                {order.orderId}
                             </th>
                             <td className="px-6 py-4">
-                                1234567890
+                                {order.product.name}
                             </td>
                             <td className="px-6 py-4">
-                                Furniture
-                            </td>
-                            <td className="px-6 py-4">
-                                100
-                            </td>
-                            <td className="px-6 py-4">
-                                20/10/2025
+                                {order.product.price}
                             </td>
                         </tr>
+                        )
+                    )}
                     </tbody>
                 </table>
             </div>

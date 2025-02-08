@@ -12,12 +12,12 @@ export default function ProductCard({product, buyNow, loading}: {
 				<Link to="#">
 					<img
 						className="mx-auto h-full"
-						src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
+						src={product.imgUrl}
 						alt=""
 					/>
 					<img
 						className="mx-auto hidden h-full"
-						src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg"
+						src={product.imgUrl}
 						alt=""
 					/>
 				</Link>
