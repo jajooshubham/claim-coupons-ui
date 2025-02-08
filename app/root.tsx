@@ -9,47 +9,49 @@ import {
 } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
 import stylesheet from "~/styles/tailwind.css?url";
+import logo from "./assets/logo.jpg";
 
 export const links: LinksFunction = () => [
 	{ rel: "stylesheet", href: stylesheet }
 ];
 
 export const meta: MetaFunction = () => {
-	const description = "Learn Remix and laugh at the same time!";
+	const description = "Plants Care offers an atom points system, where you can earn points by claiming coupons and redeem products using those points.";
 
 	return [
 		{ name: "description", content: description },
 		{ name: "twitter:description", content: description },
-		{ title: "Remix: So great, it's funny!" },
+		{ title: "Plants care atoms points" },
 	];
 };
 
 function Document({
 	children,
-	title = "Remix: So great, it's funny!",
+	title = "Plants care atom point",
 }: PropsWithChildren<{ title?: string }>) {
 	return (
 		<html lang="en">
-			<head>
-				<meta charSet="utf-8" />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<meta name="keywords" content="Remix,jokes" />
-				<meta
-					name="twitter:image"
-					content="https://remix-jokes.lol/social.png"
-				/>
-				<meta name="twitter:card" content="summary_large_image" />
-				<meta name="twitter:creator" content="@remix_run" />
-				<meta name="twitter:site" content="@remix_run" />
-				<meta name="twitter:title" content="Remix Jokes" />
-				<Meta />
-				{title ? <title>{title}</title> : null}
-				<Links />
-			</head>
-			<body>
-				{children}
-				<Scripts />
-			</body>
+		<head>
+			<meta charSet="utf-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<meta name="keywords" content="Plants care"/>
+			<meta
+				name="twitter:image"
+				content={logo}
+			/>
+			<meta name="twitter:card" content="plants care atom points"/>
+			<meta name="twitter:creator" content="Plants Care"/>
+			<meta name="twitter:site" content="Atom Points"/>
+			<meta name="twitter:title" content="Atom Points by Plants Care"/>
+			<Meta/>
+			<title>{title}</title>
+			<link rel="icon" type="image/jpg" href={"https://beardsnshears.in/cdn/shop/files/FAV-SVG.svg?crop=center&height=32&v=1692612504&width=32"}/>
+			<Links/>
+		</head>
+		<body>
+		{children}
+		<Scripts/>
+		</body>
 		</html>
 	);
 }
