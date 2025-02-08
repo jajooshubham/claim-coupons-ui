@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+import logo from "../assets/logo.jpg"
 
 export default function IndexRoute() {
 	return (
@@ -38,8 +39,8 @@ export default function IndexRoute() {
 				</div>
 				<div className="lg:mt-0 lg:col-span-5 lg:flex">
 					<img
-						src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png"
-						alt="mockup"
+						src={logo}
+						alt="Plants Care"
 					/>
 				</div>
 			</div>
