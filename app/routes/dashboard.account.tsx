@@ -5,7 +5,7 @@ export default function Account() {
     const user:User = useOutletContext();
 
     return (
-        <div className="container mx-auto">
+        <div className="mx-auto">
             <div className="flex justify-between">
                 <div className="flex items-center gap-4">
                     <div className="font-medium">

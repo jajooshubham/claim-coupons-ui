@@ -14,9 +14,9 @@ export default function Dashboard() {
 	const user = useLoaderData<typeof loader>();
 	return (
 		<ToastProvider>
-			<div className="">
+			<div className="w-full px-4 lg:px-0">
 				<Header points={user?.data.points} />
-				<main className="">
+				<main className="mx-auto sm:max-w-xl md:max-w-full py-10 px-4 lg:px-8">
 					<Outlet context={user?.data} />
 				</main>
 				<Footer />
