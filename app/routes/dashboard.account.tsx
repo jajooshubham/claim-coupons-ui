@@ -66,6 +66,9 @@ export default function Account() {
                         <th scope="col" className="px-6 py-3">
                             Order Id
                         </th>
+                        <th scope="col" className="px-16 py-3">
+                            <span className="sr-only">Image</span>
+                        </th>
                         <th scope="col" className="px-6 py-3">
                             Product purchase
                         </th>
@@ -76,23 +79,30 @@ export default function Account() {
                     </thead>
                     <tbody className="contracts-table">
                     {loaderData.status === 200 && loaderData.data.map((order: Order) => (
-                        <tr className="odd:bg-white even:bg-gray-50"
-                            key={order.orderId}>
-                            <th scope="row"
-                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                {order.orderId}
-                            </th>
-                            <td className="px-6 py-4">
-                                {order.product.name}
-                            </td>
-                            <td className="px-6 py-4">
-                                {order.product.price}
-                            </td>
-                        </tr>
+                            <tr className="odd:bg-white even:bg-gray-50"
+                                key={order.orderId}>
+                                <th scope="row"
+                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                    {order.orderId}
+                                </th>
+                                <td className="p-4">
+                                    <img src={order.product.imgUrl}
+                                         className="w-16 md:w-32 max-w-full max-h-full" alt="Apple Watch"/>
+                                </td>
+                                <td className="px-6 py-4">
+                                    {order.product.name}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {order.product.price}
+                                </td>
+                            </tr>
                         )
                     )}
                     </tbody>
                 </table>
+                {loaderData.data.length <= 0 &&
+                    <p className="py-2 text-center">No orders in your account.</p>
+                }
             </div>
 
 
