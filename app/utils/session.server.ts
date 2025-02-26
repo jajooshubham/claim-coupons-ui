@@ -1,17 +1,11 @@
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
-import type { Login, Register } from "~/model/auth-model";
+import {createCookieSessionStorage, redirect} from "@remix-run/node";
+import type {Register} from "~/model/auth-model";
 import claimCouponApi from "~/services/api";
-import authApi from "~/services/auth-api";
 
 export const baseUrl: string | undefined = process.env.BASE_URL;
-export async function login({ email, password }: Login) {
-	const api = authApi(baseUrl);
-	const token = api.login({ email, password });
-	if (!token) {
-		return null;
-	}
-
-	return token;
+export async function login(token : string) {
+	const api = claimCouponApi(token, baseUrl);
+	return api.login();
 }
 
 const sessionSecret = process.env.SESSION_SECRET;
@@ -56,7 +50,7 @@ export async function requireUserToken(request: Request) {
 	return userToken;
 }
 
-export async function createUserSession(userToken: string) {
+export async function createUserSession(userToken: string | null) {
 	const session = await storage.getSession();
 	session.set("userToken", userToken);
 	return redirect("/dashboard", {
@@ -91,25 +85,9 @@ export async function logout(request: Request) {
 	});
 }
 
-export async function register({
-	password,
-	email,
-	parlourName,
-	phoneNumber,
-	name,
-	address,
-	pinCode,
-}: Register) {
-	const api = authApi(baseUrl);
-	const user = api.register({
-		password,
-		email,
-		parlourName,
-		phoneNumber,
-		name,
-		address,
-		pinCode,
-	});
+export async function register(data: Register, token: string | null) {
+	const api = claimCouponApi(token, baseUrl);
+	const user = api.register(data);
 	if (!user) {
 		return null;
 	}

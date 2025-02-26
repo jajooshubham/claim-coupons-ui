@@ -4,10 +4,10 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix vite:build",
-    "dev": "remix vite:dev",
+    "build": "dotenv -e .env -- remix vite:build",
+    "dev": "dotenv -e .env -- remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "remix-serve ./build/server/index.js",
+    "start": "dotenv -e .env -- remix-serve ./build/server/index.js",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -15,6 +15,9 @@
     "@remix-run/react": "^2.15.2",
     "@remix-run/serve": "^2.15.2",
     "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "dotenv-cli": "^8.0.0",
+    "firebase": "^11.3.1",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

@@ -1,6 +1,7 @@
 import axios from "axios"
+import type {Register} from "~/model/auth-model";
 
-const axClient = (token : string , baseURL : string | undefined = "") => {
+const axClient = (token : string | null , baseURL : string | undefined = "") => {
     return axios.create({
         baseURL : baseURL,
         headers: {
@@ -10,10 +11,16 @@ const axClient = (token : string , baseURL : string | undefined = "") => {
     })
 }
 
-const claimCouponApi = (token : string,  baseUrl : string | undefined) => {
+const claimCouponApi = (token : string | null,  baseUrl : string | undefined) => {
     const client = axClient(token, baseUrl);
 
     return {
+        login() {
+            return client.post('/auth/login');
+        },
+        register(data : Register) {
+            return client.post('/auth/register', data);
+        },
         profile(){
             return client.get('/profile')
         },
@@ -24,7 +31,7 @@ const claimCouponApi = (token : string,  baseUrl : string | undefined) => {
             return client.post(`/buy/${productId}`);
         },
         claimCoupons(couponCode: File | string | null) {
-            return client.post(`/clain-coupons?coupon=${couponCode}`);
+            return client.post(`/claim-coupons?coupon=${couponCode}`);
         },
         orderHistory() {
             return client.get('/orders');

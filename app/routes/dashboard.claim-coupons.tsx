@@ -15,7 +15,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export default function Account() {
     const actionData = useActionData<typeof action>();
 
-    console.log(actionData);
     return (
         <div className="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8">
             <h5 className="mb-2 text-3xl font-bold text-gray-900">Claim coupons</h5>
