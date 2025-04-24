@@ -29,9 +29,11 @@ export default function Login() {
     const [verificationCode, setVerificationCode] = useState("");
     const [error, setError] = useState("");
     const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
+    const [loading, setLoading] = useState(false);
 
     const handlePhoneNumberSubmit = async () => {
         // Create reCAPTCHA verifier
+        setLoading(true);
         const recaptchaVerifier = new RecaptchaVerifier(auth , 'recaptcha', {
             size: 'invisible',
             callback: (response: never) => {
@@ -48,9 +50,11 @@ export default function Login() {
             setError("Invalid phone number");
             console.error('Error during phone sign-in', error);
         }
+        setLoading(false);
     };
 
     const handleVerificationCodeSubmit = async () => {
+        setLoading(true);
         if (confirmationResult) {
             try {
                 // Login the code
@@ -65,6 +69,7 @@ export default function Login() {
                 console.error('Error verifying code', error);
             }
         }
+        setLoading(false);
     };
 
     return (
@@ -122,7 +127,12 @@ export default function Login() {
                                 type="submit"
                                 className="w-full text-primary bg-lime-600 hover:bg-lime-700 focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                             >
-                                Sign In
+                                {loading ?
+                                    <span>Sending OTP...</span>
+                                    :
+                                    <span>Sign In</span>
+
+                                }
                             </button>
                         </Form>
                     </div>
@@ -162,7 +172,11 @@ export default function Login() {
                                     type="submit"
                                     className="w-full text-primary bg-lime-600 hover:bg-lime-700 focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                                 >
-                                    Verify OTP
+                                    {loading ?
+                                        <span>Verifying...</span>
+                                        :
+                                        <span>Verify OTP</span>
+                                    }
                                 </button>
                             </Form>
                         </div>

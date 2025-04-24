@@ -6,5 +6,5 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     const userToken: string = await requireUserToken(request);
 
     const api = claimCouponApi(userToken, baseUrl);
-    return await api.buy(params?.productId);
+    return await api.order(params?.productId);
 }

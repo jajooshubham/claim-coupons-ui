@@ -46,7 +46,7 @@ export function ErrorBoundary() {
 				Change a few things up and try submitting again.
 			</p>
 			<br />
-			<Link to="/dashboard">Refresh and Try again</Link>
+			<Link to="/login">Session has expired, Login again</Link>
 		</div>
 	);
 }

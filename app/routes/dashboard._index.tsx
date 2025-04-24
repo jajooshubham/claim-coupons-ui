@@ -23,7 +23,7 @@ export default function IndexRoute() {
 	const buyNowAction = (productId: number) => {
 		setLoading(true);
 		fetcher.submit(null, {
-			action: `/dashboard/buy/${productId}`,
+			action: `/dashboard/order/${productId}`,
 			method: "POST",
 			encType: "application/json",
 		})

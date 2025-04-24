@@ -1,5 +1,6 @@
 import axios from "axios"
 import type {Register} from "~/model/auth-model";
+import {ProductOrderLists} from "~/model/product-order-lists";
 
 const axClient = (token : string | null , baseURL : string | undefined = "") => {
     return axios.create({
@@ -27,11 +28,14 @@ const claimCouponApi = (token : string | null,  baseUrl : string | undefined) =>
         products() {
             return client.get('/products')
         },
-        buy(productId: string | undefined) {
-            return client.post(`/buy/${productId}`);
+        plantsCareProducts() {
+            return client.get('/plantscare/products')
         },
-        claimCoupons(couponCode: File | string | null) {
-            return client.post(`/claim-coupons?coupon=${couponCode}`);
+        order(productId: string | undefined) {
+            return client.post(`/order/${productId}`);
+        },
+        claimCoupons(productOrderLists: ProductOrderLists) {
+            return client.post(`/claim-coupons`, productOrderLists);
         },
         orderHistory() {
             return client.get('/orders');
