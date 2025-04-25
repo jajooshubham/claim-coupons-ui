@@ -1,4 +1,4 @@
-import {Form, useActionData, useLoaderData, useNavigate} from "@remix-run/react";
+import {Form, useActionData, useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
 import {useEffect, useState} from "react";
 import {ProductOrderLists} from "~/model/product-order-lists";
 import {ActionFunctionArgs, data, LoaderFunctionArgs, redirect} from "@remix-run/node";
@@ -48,6 +48,9 @@ export default function Account() {
     const loaderData = useLoaderData<typeof loader>();
     const firstProductId: number = loaderData.data[0].productId;
     const actionData = useActionData<typeof action>();
+    const navigation = useNavigation();
+    const isSubmitting = navigation.state === "submitting";
+
     const {addToast} = useToast();
     const navigate = useNavigate();
 
@@ -85,7 +88,7 @@ export default function Account() {
                 />
                 <div className="text-right">
                     <button type="submit" className="p-2 rounded bg-lime-600 text-white w-40">
-                            <span>Claim Points</span>
+                        {isSubmitting ? "Claiming..." : "Claim Points"}
                     </button>
                 </div>
             </Form>

@@ -3,7 +3,7 @@ import type {Register} from "~/model/auth-model";
 import claimCouponApi from "~/services/api";
 
 export const baseUrl: string | undefined = process.env.BASE_URL;
-export async function login(token : string) {
+export async function login(token : string | null) {
 	const api = claimCouponApi(token, baseUrl);
 	return api.login();
 }
@@ -23,7 +23,7 @@ const storage = createCookieSessionStorage({
 		secrets: [sessionSecret],
 		sameSite: "lax",
 		path: "/",
-		maxAge: 60 * 60 * 24 * 30,
+		maxAge: 86400000,
 		httpOnly: true,
 	},
 });
@@ -53,7 +53,19 @@ export async function requireUserToken(request: Request) {
 export async function createUserSession(userToken: string | null) {
 	const session = await storage.getSession();
 	session.set("userToken", userToken);
-	return redirect("/dashboard", {
+
+	const user = await login(userToken);
+
+	let redirectParameter: string = "/";
+	if(user.data == "success") {
+		redirectParameter = "/dashboard";
+	} else if(user.data == "User not Exists") {
+		redirectParameter = "/register";
+	} else {
+		throw "Failed to register";
+	}
+
+	return redirect(redirectParameter, {
 		headers: {
 			"Set-Cookie": await storage.commitSession(session),
 		},
@@ -93,4 +105,15 @@ export async function register(data: Register, token: string | null) {
 	}
 
 	return user;
+}
+
+export function checkTokenExpiry(token: string) {
+	const base64Url = token.split('.')[1];
+	const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+	const decodedPayload = JSON.parse(atob(base64));
+
+	const exp = decodedPayload.exp; // expiry time in seconds
+	const currentTime = Math.floor(Date.now() / 1000);
+
+	return exp >= currentTime;
 }

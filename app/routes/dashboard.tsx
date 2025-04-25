@@ -3,10 +3,14 @@ import {isRouteErrorResponse, Link, Outlet, useLoaderData, useRouteError} from "
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import {ToastProvider} from "~/components/ToastProvider";
-import {getUser, requireUserToken} from "~/utils/session.server";
+import {checkTokenExpiry, getUser, logout, requireUserToken} from "~/utils/session.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-	await requireUserToken(request);
+	const token = await requireUserToken(request);
+	const tokenExp = checkTokenExpiry(token);
+	if(!tokenExp) {
+		throw await logout(request);
+	}
 	return await getUser(request);
 };
 

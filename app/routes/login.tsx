@@ -2,24 +2,14 @@ import {Form, Link, useFetcher} from "@remix-run/react";
 import logo from "../assets/logo.jpg"
 import {ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber, UserCredential} from "firebase/auth";
 import {useState} from "react";
-import {auth} from "~/firebase/setup";
-import {ActionFunctionArgs, redirect} from "@remix-run/node";
-import {createUserSession, login} from "~/utils/session.server";
+import {auth} from "~/utils/firebase";
+import {ActionFunctionArgs} from "@remix-run/node";
+import {createUserSession} from "~/utils/session.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
     const json = await request.json();
-
     const token = await json.token;
-    const user = await login(token);
-
-    if(user.data == "success") {
-        return createUserSession(await token);
-    } else if(user.data == "User not Exists") {
-        return redirect(`/register?token=${token}`);
-    } else {
-        throw "Failed to register";
-    }
-
+    return createUserSession(token);
 };
 
 export default function Login() {
@@ -107,7 +97,7 @@ export default function Login() {
                                         name="phoneNumber"
                                         id="phoneNumber"
                                         className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                        placeholder="1234567890"
+                                        placeholder="Phone Number"
                                         required={true}
                                         onChange={event => setPhoneNumber(event.target.value)}
                                     />
@@ -153,7 +143,7 @@ export default function Login() {
                                             name="verificationCode"
                                             id="verificationCode"
                                             className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                            placeholder="123456"
+                                            placeholder="OTP"
                                             required={true}
                                             onChange={event => setVerificationCode(event.target.value)}
                                         />

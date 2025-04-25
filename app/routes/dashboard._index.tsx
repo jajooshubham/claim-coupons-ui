@@ -2,7 +2,7 @@ import ProductCard from "~/components/ProductCard";
 import {LoaderFunctionArgs} from "@remix-run/node";
 import {baseUrl, requireUserToken} from "~/utils/session.server";
 import claimCouponApi from "~/services/api";
-import {isRouteErrorResponse, Link, useFetcher, useLoaderData, useRouteError} from "@remix-run/react";
+import {useFetcher, useLoaderData} from "@remix-run/react";
 import {Product} from "~/model/products";
 import {useEffect, useState} from "react";
 import {useToast} from "~/hooks/useToast";
@@ -31,7 +31,10 @@ export default function IndexRoute() {
 
 	useEffect(() => {
 		if(!fetcher.data) return;
-		addToast(fetcher.data?.data, fetcher.data.status === 200 ? "success" : "error");
+		console.log(fetcher.data);
+		(fetcher.data.data !== '')
+			? addToast(fetcher.data?.data, "success")
+			: addToast("Credit limit Exceed", "error")
 		setLoading(false);
 	}, [fetcher.data]);
 
@@ -40,32 +43,6 @@ export default function IndexRoute() {
 			{loaderData.status === 200 && loaderData.data.map((product: Product) => (
 				<ProductCard key={product.productId} product={product} buyNow={buyNowAction} loading={loading} />
 			))}
-		</div>
-	);
-}
-
-export function ErrorBoundary() {
-	const error = useRouteError();
-
-
-	if (isRouteErrorResponse(error) && error.status === 404) {
-		return (
-			<div className="error-container">
-				<p>There are no jokes to display.</p>
-			</div>
-		);
-	}
-
-	return (
-		<div
-			className="p-4 m-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
-			role="alert">
-			<p>
-				<span className="font-medium">Warning alert!</span>
-				Change a few things up and try submitting again.
-			</p>
-			<br />
-			<Link to="/dashboard">Refresh and Try again</Link>
 		</div>
 	);
 }

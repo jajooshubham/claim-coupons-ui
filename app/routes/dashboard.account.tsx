@@ -1,10 +1,9 @@
-import {Link, useLoaderData, useOutletContext} from "@remix-run/react";
+import {Form, useLoaderData, useOutletContext} from "@remix-run/react";
 import {User} from "~/model/user";
 import {LoaderFunctionArgs} from "@remix-run/node";
 import {baseUrl, requireUserToken} from "~/utils/session.server";
 import claimCouponApi from "~/services/api";
-import {Product} from "~/model/products";
-import {Order, Orders} from "~/model/order";
+import {Order} from "~/model/order";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
     const userToken = await requireUserToken(request);
@@ -26,9 +25,11 @@ export default function Account() {
                         <div className="text-sm text-gray-500 dark:text-gray-400">{user?.email}</div>
                     </div>
                 </div>
-                <Link to={""}
-                      className="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Logout
-                </Link>
+                <Form action="/logout" method="post">
+                    <button type="submit" className="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                        Logout
+                    </button>
+                </Form>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 my-5">

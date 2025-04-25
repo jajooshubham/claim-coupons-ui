@@ -1,13 +1,12 @@
-import {Form, Link, useActionData, useSearchParams} from "@remix-run/react";
+import {Form, Link, useActionData, useNavigation} from "@remix-run/react";
 import { ActionFunctionArgs } from "@remix-run/node";
 import { badRequest } from "~/utils/request.server";
 import type { Register } from "~/model/auth-model";
-import {createUserSession, register} from "~/utils/session.server";
+import {createUserSession, register, requireUserToken} from "~/utils/session.server";
 import logo from "../assets/logo.jpg"
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-	const url = new URL(request.url);
-	const token = url.searchParams.get("token");
+	const token = await requireUserToken(request);
 
 	const form = await request.formData();
 	const name = form.get("name");
@@ -66,8 +65,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function Register() {
 	const actionData = useActionData<typeof action>();
-	const [searchParams] = useSearchParams();
-	const token = searchParams.getAll("token");
+	const navigation = useNavigation();
+	const isSubmitting = navigation.state === "submitting";
 
 	return (
 		<section className="bg-gray-50">
@@ -87,7 +86,7 @@ export default function Register() {
 						<h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
 							Sign up to your account
 						</h1>
-						<Form method="POST" className="space-y-4 md:space-y-6" action={`/register?token=${token}`}>
+						<Form method="POST" className="space-y-4 md:space-y-6" action={`/register`}>
 							<div className="flex justify-between gap-4">
 								<div>
 									<label
@@ -101,7 +100,7 @@ export default function Register() {
 										name="name"
 										id="name"
 										className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-										placeholder="name"
+										placeholder="Name"
 										required={true}
 										defaultValue={actionData?.fields?.name}
 										aria-invalid={Boolean(actionData?.fieldErrors?.name)}
@@ -131,7 +130,7 @@ export default function Register() {
 											name="parlourName"
 											id="parlourName"
 											className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-											placeholder="Beauty parlour"
+											placeholder="Parlour Name"
 											required={true}
 											defaultValue={actionData?.fields?.parlourName}
 											aria-invalid={Boolean(actionData?.fieldErrors?.parlourName)}
@@ -165,7 +164,7 @@ export default function Register() {
 												name="address"
 												id="address"
 												className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-												placeholder="402, abc society"
+												placeholder="Address"
 												required={true}
 												defaultValue={actionData?.fields?.address}
 												aria-invalid={Boolean(actionData?.fieldErrors?.address)}
@@ -193,11 +192,11 @@ export default function Register() {
 												Your Pin Code
 											</label>
 											<input
-												type="number"
+												type="text"
 												name="pinCode"
 												id="pinCode"
 												className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-												placeholder="402878"
+												placeholder="6 digin Pin code"
 												required={true}
 												defaultValue={actionData?.fields?.pinCode}
 												aria-invalid={Boolean(actionData?.fieldErrors?.pinCode)}
@@ -222,7 +221,7 @@ export default function Register() {
 										type="submit"
 										className="w-full text-primary bg-lime-600 hover:bg-lime-700 focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
 									>
-										Sign Up
+										{isSubmitting ? "Submitting..." : "Register"}
 									</button>
 									<p className="text-sm font-light text-gray-500">
 										You have an account
