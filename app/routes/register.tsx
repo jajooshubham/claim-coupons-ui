@@ -13,12 +13,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	const parlourName = form.get("parlourName");
 	const address = form.get("address");
 	const pinCode = form.get("pinCode");
-
+	const agentName = form.get("agentName");
 	if (
 		typeof name !== "string" ||
 		typeof parlourName !== "string" ||
 		typeof address !== "string" ||
-		typeof pinCode !== "string"
+		typeof pinCode !== "string" ||
+		typeof agentName !== "string"
 	) {
 		return badRequest({
 			fieldErrors: null,
@@ -32,12 +33,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 		parlourName,
 		address,
 		pinCode,
+		agentName
 	};
 	const fieldErrors = {
 		parlourName: "",
 		address: "",
 		pinCode: "",
 		name: "",
+		agentName: "",
 	};
 	if (Object.values(fieldErrors).some(Boolean)) {
 		return badRequest({
@@ -52,6 +55,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 		pinCode,
 		name,
 		address,
+		agentName
 	}, token);
 	if (!user) {
 		return badRequest({
@@ -213,6 +217,38 @@ export default function Register() {
 													id="pincode-error"
 												>
 													{actionData.fieldErrors.pinCode}
+												</p>
+											) : null}
+										</div>
+										<div>
+											<label
+												htmlFor="agentName"
+												className="block mb-2 text-sm font-medium text-gray-900"
+											>
+												Your Pin Code
+											</label>
+											<input
+												type="text"
+												name="agentName"
+												id="agentName"
+												className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+												placeholder="Agent Name"
+												required={true}
+												defaultValue={actionData?.fields?.agentName}
+												aria-invalid={Boolean(actionData?.fieldErrors?.agentName)}
+												aria-errormessage={
+													actionData?.fieldErrors?.agentName
+														? "agentName-error"
+														: undefined
+												}
+											/>
+											{actionData?.fieldErrors?.agentName ? (
+												<p
+													className="text-red-700 form-validation-error"
+													role="alert"
+													id="agentName-error"
+												>
+													{actionData.fieldErrors.agentName}
 												</p>
 											) : null}
 										</div>
