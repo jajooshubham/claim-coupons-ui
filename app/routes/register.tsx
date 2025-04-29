@@ -225,7 +225,7 @@ export default function Register() {
 												htmlFor="agentName"
 												className="block mb-2 text-sm font-medium text-gray-900"
 											>
-												Your Pin Code
+												Enter Agent Name
 											</label>
 											<input
 												type="text"
